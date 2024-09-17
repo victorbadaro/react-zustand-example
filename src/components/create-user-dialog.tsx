@@ -1,3 +1,4 @@
+import { useUsersStore } from '@/stores/users';
 import { FormEvent, useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
@@ -5,6 +6,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export function CreateUserDialog() {
+	const addUser = useUsersStore((store) => store.addUser);
 	const [isOpen, setIsOpen] = useState(false);
 
 	function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
@@ -18,6 +20,8 @@ export function CreateUserDialog() {
 		if (!name || !email) {
 			return;
 		}
+
+		addUser({ name, email });
 
 		form.reset();
 		setIsOpen(false);
