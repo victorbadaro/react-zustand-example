@@ -7,11 +7,11 @@ type User = {
 	email: string;
 };
 
-type UserToBeUpdated = Omit<User, 'id'>;
+type UserToBeAdded = Omit<User, 'id'>;
 
 interface UsersStore {
 	users: User[];
-	addUser: (user: UserToBeUpdated) => void;
+	addUser: ({ name, email }: UserToBeAdded) => void;
 }
 
 export const useUsersStore = create<UsersStore>((set, get) => {
@@ -20,15 +20,15 @@ export const useUsersStore = create<UsersStore>((set, get) => {
 	return {
 		users: [],
 
-		addUser(user) {
-			const newUser = {
+		addUser({ name, email }) {
+			const userToBeAdded = {
 				id: get().users.length + 1,
-				name: user.name,
-				email: user.email
+				name,
+				email
 			};
 
 			setState((state) => {
-				state.users.push(newUser);
+				state.users.push(userToBeAdded);
 			});
 		}
 	};
